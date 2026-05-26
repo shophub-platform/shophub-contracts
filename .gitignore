@@ -1,0 +1,15 @@
+node_modules/
+artifacts/
+cache/
+deployments/
+coverage/
+coverage.json
+typechain-types/
+
+# Environment - NIKAD ne commit-uj private key!
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db

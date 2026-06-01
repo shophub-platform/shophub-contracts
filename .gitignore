@@ -13,3 +13,32 @@ typechain-types/
 # OS
 .DS_Store
 Thumbs.db
+
+
+# --- Go ---
+/bin/
+/dist/
+*.exe
+*.test
+*.out
+vendor/
+coverage.*
+
+# --- Node / Angular (web/) ---
+node_modules/
+web/node_modules/
+web/dist/
+web/.angular/
+npm-debug.log*
+yarn-error.log
+
+# --- Env / secrets ---
+.env
+.env.*
+*.local
+
+# --- Editor / OS ---
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

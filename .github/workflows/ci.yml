@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+jobs:
+  commitlint:
+    name: Conventional Commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: wagoid/commitlint-github-action@v6
+
+  build-test:
+    name: Compile / Test (Hardhat)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect Node project
+        id: detect
+        run: |
+          if [ -f package.json ]; then echo "node=true" >> "$GITHUB_OUTPUT"; else echo "node=false" >> "$GITHUB_OUTPUT"; fi
+
+      - uses: actions/setup-node@v4
+        if: steps.detect.outputs.node == 'true'
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install
+        if: steps.detect.outputs.node == 'true'
+        run: npm ci || npm install
+
+      - name: Compile
+        if: steps.detect.outputs.node == 'true'
+        run: npx hardhat compile
+
+      - name: Test
+        if: steps.detect.outputs.node == 'true'
+        run: npx hardhat test
+
+      - name: Skeleton (no code yet)
+        if: steps.detect.outputs.node != 'true'
+        run: echo "package.json još ne postoji — skeleton pipeline prolazi (F0)."
